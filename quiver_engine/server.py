@@ -94,10 +94,11 @@ def get_app(model, classes, top, html_base_dir, temp_folder='./tmp', input_folde
 
     @app.route('/layer/<layer_name>/<input_path>')
     def get_layer_outputs(layer_name, input_path):
+        print(single_input_shape)
         return jsonify(
             save_layer_outputs(
                 load_img(
-                    join(abspath(input_folder), input_path),
+                    join(abspath(input_folder), input_path.replace("%23", "#")),
                     single_input_shape,
                     grayscale=(input_channels == 1),
                     mean=mean, std=std
@@ -116,7 +117,7 @@ def get_app(model, classes, top, html_base_dir, temp_folder='./tmp', input_folde
                 decode_predictions(
                     model.predict(
                         load_img(
-                            join(abspath(input_folder), input_path),
+                            join(abspath(input_folder), input_path.replace("%23", "#")),
                             single_input_shape,
                             grayscale=(input_channels == 1),
                             mean=mean, std=std
